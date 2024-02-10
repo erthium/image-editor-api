@@ -11,6 +11,12 @@ export class EditorService {
 
     async editImage(data: ImageEditDto): Promise<string> {
         try{
+            if (typeof data.image !== 'string') {
+                throw new Error(`Invalid image input: ${data.image}`);
+            }
+            if (typeof data.prompt !== 'string') {
+                throw new Error(`Invalid prompt input: ${data.prompt}`);
+            }
             const editedImageUrl = await AiService.modifyImage(data.image, data.prompt);
             return editedImageUrl;
         }
