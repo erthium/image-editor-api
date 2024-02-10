@@ -5,6 +5,10 @@ import { AiService } from 'src/ai/ai.service';
 @Injectable()
 export class EditorService {
 
+    async testConnection(): Promise<void> {
+        return AiService.testKey();
+    }
+
     async editImage(data: ImageEditDto): Promise<string> {
         try{
             const editedImageUrl = await AiService.modifyImage(data.image, data.prompt);

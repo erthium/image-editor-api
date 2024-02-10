@@ -7,7 +7,7 @@ const getAPIKey = () => {
     if (api_key === undefined) {
         throw new Error("OpenAI API Key is missing!");
     }
-    const pattern = new RegExp("sk-[a-zA-Z0-9]{29}");
+    const pattern = new RegExp("sk-[a-zA-Z0-9]{48}");
     if (!pattern.test(api_key)) {
         throw new Error("OpenAI API Key is not valid!");
     }
@@ -16,6 +16,13 @@ const getAPIKey = () => {
 
 @Injectable()
 export class AiService {
+
+    static testKey = async () => {
+        const openai = new OpenAI({
+            apiKey: getAPIKey()
+        });
+    }
+
     static askQuestion = async (question: string) => {
 
         const openai = new OpenAI({
