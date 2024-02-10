@@ -9,15 +9,9 @@ export class EditorService {
         return AiService.testKey();
     }
 
-    async editImage(data: ImageEditDto): Promise<string> {
+    async editImage(image: File, prompt: string): Promise<string> {
         try{
-            if (typeof data.image !== 'string') {
-                throw new Error(`Invalid image input: ${data.image}`);
-            }
-            if (typeof data.prompt !== 'string') {
-                throw new Error(`Invalid prompt input: ${data.prompt}`);
-            }
-            const editedImageUrl = await AiService.modifyImage(data.image, data.prompt);
+            const editedImageUrl = await AiService.modifyImage(image, prompt);
             return editedImageUrl;
         }
         catch (error) {
@@ -25,5 +19,4 @@ export class EditorService {
             throw new Error('Error editing image');
         }
     }
-
 }

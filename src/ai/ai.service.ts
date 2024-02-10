@@ -61,23 +61,30 @@ export class AiService {
     }
 
 
-    static modifyImage = async (imagePath: string, prompt: string): Promise<string> => {
+    static modifyImage = async (imageFile: File, prompt: string): Promise<string> => {
         const openai = new OpenAI({
             apiKey: getAPIKey(),
             //dangerouslyAllowBrowser: true
         });
-
+        /*
         const gptResponse = await openai.images.edit({
-            image: fs.createReadStream(imagePath),
+            image: imageFile,
             prompt: prompt,
             response_format: 'url',
             model: 'dall-e-2',
             size: '512x512'
         });
-
+        
         const imageUrl: string = gptResponse.data[0].url;
-
+        
         return imageUrl;
+        */
+        
+        console.log(imageFile.name);
+        console.log(imageFile.type);
+        console.log(imageFile.size);
+        return 'logged';
+        
     }
 
 }

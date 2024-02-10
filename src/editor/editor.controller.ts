@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UploadedFile } from '@nestjs/common';
 import { EditorService } from './editor.service';
 import { ImageEditDto } from 'src/dto/image-edit.dto';
+import { UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('editor')
 export class EditorController {
@@ -18,10 +20,13 @@ export class EditorController {
         }
     }
 
+
     @Post('edit')
-    async editImage(@Body() data: ImageEditDto) {
+    @UseInterceptors(FileInterceptor('image'))
+    async editImage(@UploadedFile() image: Express.Multer.File, @Body() data: ImageEditDto) {
         try {
-            const editedImageUrl = await this.editorService.editImage(data);
+            const file: File = new File([image.buffer], image.originalname, { type: image.mimetype });
+            const editedImageUrl = await this.editorService.editImage(file, data.prompt);
             return { editedImageUrl };
         } 
         catch (error) {
