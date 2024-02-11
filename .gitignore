@@ -37,3 +37,6 @@ lerna-debug.log*
 # Environment Variables
 .env
 .env.local
+
+# Local Files
+local_assets

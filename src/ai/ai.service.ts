@@ -1,152 +1,101 @@
 import { Injectable } from '@nestjs/common';
-import OpenAI from 'openai';
-import fs from 'fs';
+import * as fs from 'fs';
 
 const getAPIKey = () => {
-    const api_key = process.env.OPENAI_API_KEY;
+    const api_key = process.env.GET_IMG_API_KEY;
     if (api_key === undefined) {
-        throw new Error("OpenAI API Key is missing!");
+        throw new Error("getimg.ai API Key is missing!");
     }
-    const pattern = new RegExp("sk-[a-zA-Z0-9]{48}");
+    const pattern = new RegExp("key-[a-zA-Z0-9]{96}");
     if (!pattern.test(api_key)) {
-        throw new Error("OpenAI API Key is not valid!");
+        throw new Error("getimg.ai API Key is not valid!");
     }
     return api_key;
 }
+
+
+const testPrompt: string = 'Style the image as if the people in the image are in a pixar animation movie';
+
 
 @Injectable()
 export class AiService {
 
     static testKey = async () => {
-        const openai = new OpenAI({
-            apiKey: getAPIKey()
-        });
+        getAPIKey();
     }
 
-    static askQuestion = async (question: string) => {
-
-        const openai = new OpenAI({
-            apiKey: getAPIKey(),
-            //dangerouslyAllowBrowser: true
-        });
-
-        const gptResponse = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: question }]
-        });
-
-        return gptResponse.choices[0].message.content || "Something went wrong";
-    }
-
-
-    static askInStream = async (question: string, callBack: (input: string | null | undefined) => void) => {
-        
-        const openai = new OpenAI({
-            apiKey: getAPIKey(),
-            //dangerouslyAllowBrowser: true
-        });
-
-        const gptStream = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            stream: true,
-            messages: [{ role: 'user', content: question }]
-        });
-
-        let index = 0;
-        for await (const chunk of gptStream) {
-            callBack(chunk.choices[0]?.delta?.content);
-            console.log(index + "|| " + chunk.choices[0]?.delta?.content + " ||")
-            index++;
-        }
-    }
-
-
-    static modifyImage = async (imageFile: File, prompt: string): Promise<string> => {
-        const openai = new OpenAI({
-            apiKey: getAPIKey(),
-            //dangerouslyAllowBrowser: true
-        });
+    static postImage = async (image64: string): Promise<string> => {
+        // get the image is ./local_assets/test_utku.png
         /*
-        const gptResponse = await openai.images.edit({
-            image: imageFile,
-            prompt: prompt,
-            response_format: 'url',
-            model: 'dall-e-2',
-            size: '512x512'
-        });
-        
-        const imageUrl: string = gptResponse.data[0].url;
-        
-        return imageUrl;
+        const test_path = '/home/erthium/Projects/image-editor-api/local_assets/utku_converted.png';
+        const test_image = fs.readFileSync(test_path, 'base64');
         */
-        
-        console.log(imageFile.name);
-        console.log(imageFile.type);
-        console.log(imageFile.size);
-        return 'logged';
-        
+        const url = 'https://api.getimg.ai/v1/latent-consistency/image-to-image';
+        const options = {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json',
+                authorization: `Bearer ${getAPIKey()}`,
+            },            
+            body: JSON.stringify({
+                model: 'lcm-realistic-vision-v5-1',
+                prompt: testPrompt,
+                //negative_prompt: 'Disfigured, cartoon, blurry',
+                //prompt_2: 'a photo of an astronaut riding a horse on mars',
+                //negative_prompt_2: 'Disfigured, cartoon, blurry',
+                image: image64,
+                strength: 0.15,
+                steps: 6,
+                //guidance: 15,
+                //seed: 2024,
+                //scheduler: 'dpmsolver++',
+                output_format: 'png'
+            })
+        };
+        const response = await fetch(url, options);
+        return response.json();
     }
 
 }
 
+/* request
 
-/*
-export interface ImageEditParams {
-  image: Uploadable;
-  prompt: string;
-  mask?: Uploadable;
-  model?: (string & {}) | 'dall-e-2' | null;
-  n?: number | null;
-  response_format?: 'url' | 'b64_json' | null;
-  size?: '256x256' | '512x512' | '1024x1024' | null;
-  user?: string;
-}
-*/
+const fetch = require('node-fetch');
 
-
-/*
-export type RequestOptions<Req = unknown | Record<string, unknown> | Readable> = {
-  method?: HTTPMethod;
-  path?: string;
-  query?: Req | undefined;
-  body?: Req | null | undefined;
-  headers?: Headers | undefined;
-
-  maxRetries?: number;
-  stream?: boolean | undefined;
-  timeout?: number;
-  httpAgent?: Agent;
-  signal?: AbortSignal | undefined | null;
-  idempotencyKey?: string;
-
-  __binaryResponse?: boolean | undefined;
-  __streamClass?: typeof Stream;
+const url = 'https://api.getimg.ai/v1/stable-diffusion-xl/image-to-image';
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'application/json'},
+  body: JSON.stringify({
+    model: 'stable-diffusion-xl-v1-0',
+    prompt: 'a photo of an astronaut riding a horse on mars',
+    negative_prompt: 'Disfigured, cartoon, blurry',
+    prompt_2: 'a photo of an astronaut riding a horse on mars',
+    negative_prompt_2: 'Disfigured, cartoon, blurry',
+    image: '...looooong base64 encoded image string...',
+    strength: 0.5,
+    steps: 50,
+    guidance: 7.5,
+    seed: 0,
+    scheduler: 'euler',
+    output_format: 'jpeg'
+  })
 };
+
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error('error:' + err));
+
 */
 
+/* response
 
-
-/* gptResponse format for chat.completions.create
 {
-  "choices": [
-    {
-      "finish_reason": "stop",
-      "index": 0,
-      "message": {
-        "content": "The 2020 World Series was played in Texas at Globe Life Field in Arlington.",
-        "role": "assistant"
-      },
-      "logprobs": null
-    }
-  ],
-  "created": 1677664795,
-  "id": "chatcmpl-7QyqpwdfhqwajicIEznoc6Q47XAyW",
-  "model": "gpt-3.5-turbo-0613",
-  "object": "chat.completion",
-  "usage": {
-    "completion_tokens": 17,
-    "prompt_tokens": 57,
-    "total_tokens": 74
-  }
+  "image": "...looooong base64 encoded image string...",
+  "seed": 42,
+  "cost": 0.00663552
 }
+
 */

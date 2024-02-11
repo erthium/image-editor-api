@@ -19,19 +19,33 @@ export class EditorController {
             return { error: 'Connection error' };
         }
     }
-
-
+    /*
+    @Post('edit')
+    async editImage(@Body() data: any) {
+        try {
+            const editedImageUrl = await this.editorService.editImage(data.image);
+            return editedImageUrl;
+        }
+        catch (error) {
+            console.error('Image editing error:', error);
+            return { error: 'Error editing image' };
+        }
+    }
+    */
+    
+    
     @Post('edit')
     @UseInterceptors(FileInterceptor('image'))
-    async editImage(@UploadedFile() image: Express.Multer.File, @Body() data: ImageEditDto) {
+    async editImage(@UploadedFile() image , @Body() data: ImageEditDto) {
         try {
-            const file: File = new File([image.buffer], image.originalname, { type: image.mimetype });
-            const editedImageUrl = await this.editorService.editImage(file, data.prompt);
-            return { editedImageUrl };
+            const imageFile: File = new File([image.buffer], image.originalname, { type: image.mimetype });
+            const editedImageUrl = await this.editorService.editImage(imageFile);
+            return editedImageUrl;
         } 
         catch (error) {
             console.error('Image editing error:', error);
             return { error: 'Error editing image' };
         }
     }
+    
 }

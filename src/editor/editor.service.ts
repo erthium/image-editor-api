@@ -9,9 +9,11 @@ export class EditorService {
         return AiService.testKey();
     }
 
-    async editImage(image: File, prompt: string): Promise<string> {
+    async editImage(imageFile: File): Promise<string> {
         try{
-            const editedImageUrl = await AiService.modifyImage(image, prompt);
+            // convert file to base64 image
+            const image = await imageFile.arrayBuffer().then(buffer => Buffer.from(buffer).toString('base64'));
+            const editedImageUrl = await AiService.postImage(image);
             return editedImageUrl;
         }
         catch (error) {
