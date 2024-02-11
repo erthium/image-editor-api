@@ -6,12 +6,14 @@ import { AiService } from './ai/ai.service';
 import { EditorController } from './editor/editor.controller';
 import { EditorService } from './editor/editor.service';
 import { OpenaiService } from './openai/openai.service';
+import { StorageService } from './storage/storage.service';
+import { IdentifierService } from './identifier/identifier.service';
 
 @Module({
     imports: [ConfigModule.forRoot({
         envFilePath: '.env',
     })],
     controllers: [AppController, EditorController],
-    providers: [AiService, EditorService, OpenaiService],
+    providers: [AiService, EditorService, OpenaiService, StorageService, IdentifierService],
 })
 export class AppModule {}

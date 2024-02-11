@@ -47,5 +47,7 @@ export class EditorController {
             return { error: 'Error editing image' };
         }
     }
+
+
     
 }

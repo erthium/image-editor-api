@@ -24,7 +24,7 @@ export class AiService {
         getAPIKey();
     }
 
-    static postImage = async (image64: string): Promise<string> => {
+    static postImage = async (image64: string) => {
         // get the image is ./local_assets/test_utku.png
         /*
         const test_path = '/home/erthium/Projects/image-editor-api/local_assets/utku_converted.png';
