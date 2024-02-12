@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
 
 const getAPIKey = () => {
     const api_key = process.env.GET_IMG_API_KEY;
@@ -20,11 +19,11 @@ const testPrompt: string = 'Style the image as if the people in the image are in
 @Injectable()
 export class AiService {
 
-    static testKey = async () => {
+    async testKey() {
         getAPIKey();
     }
 
-    static postImage = async (image64: string) => {
+    async postImage(image64: string) {
         // get the image is ./local_assets/test_utku.png
         /*
         const test_path = '/home/erthium/Projects/image-editor-api/local_assets/utku_converted.png';
@@ -58,44 +57,3 @@ export class AiService {
     }
 
 }
-
-/* request
-
-const fetch = require('node-fetch');
-
-const url = 'https://api.getimg.ai/v1/stable-diffusion-xl/image-to-image';
-const options = {
-  method: 'POST',
-  headers: {accept: 'application/json', 'content-type': 'application/json'},
-  body: JSON.stringify({
-    model: 'stable-diffusion-xl-v1-0',
-    prompt: 'a photo of an astronaut riding a horse on mars',
-    negative_prompt: 'Disfigured, cartoon, blurry',
-    prompt_2: 'a photo of an astronaut riding a horse on mars',
-    negative_prompt_2: 'Disfigured, cartoon, blurry',
-    image: '...looooong base64 encoded image string...',
-    strength: 0.5,
-    steps: 50,
-    guidance: 7.5,
-    seed: 0,
-    scheduler: 'euler',
-    output_format: 'jpeg'
-  })
-};
-
-fetch(url, options)
-  .then(res => res.json())
-  .then(json => console.log(json))
-  .catch(err => console.error('error:' + err));
-
-*/
-
-/* response
-
-{
-  "image": "...looooong base64 encoded image string...",
-  "seed": 42,
-  "cost": 0.00663552
-}
-
-*/

@@ -8,10 +8,11 @@ export class EditorService {
     constructor(
         private readonly storageService: StorageService,
         private readonly identifierService: IdentifierService,
+        private readonly aiService: AiService
     ) { }
 
     async testConnection(): Promise<void> {
-        return AiService.testKey();
+        return this.aiService.testKey();
     }
 
     async editImage(imageFile: File): Promise<string> {
@@ -21,10 +22,9 @@ export class EditorService {
                 .then(buffer => Buffer.from(buffer).toString('base64'));
             const imageID = await this.identifierService.createID(image64);
             this.storageService.saveImage(image64, imageID + '-raw');
-            const editedImageResponse = await AiService.postImage(image64);
+            const editedImageResponse = await this.aiService.postImage(image64);
             const editedImage64 = editedImageResponse.image;
             this.storageService.saveImage(editedImage64, imageID + '-edited');
-            editedImageResponse.image_id = imageID;
             return editedImageResponse;
         }
         catch (error) {
