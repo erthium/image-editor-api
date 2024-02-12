@@ -24,6 +24,7 @@ export class EditorService {
             const editedImageResponse = await AiService.postImage(image64);
             const editedImage64 = editedImageResponse.image;
             this.storageService.saveImage(editedImage64, imageID + '-edited');
+            editedImageResponse.image_id = imageID;
             return editedImageResponse;
         }
         catch (error) {
