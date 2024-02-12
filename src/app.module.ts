@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AiService } from './ai/ai.service';
 import { EditorController } from './editor/editor.controller';
 import { EditorService } from './editor/editor.service';
-import { OpenaiService } from './openai/openai.service';
 import { StorageService } from './storage/storage.service';
 import { IdentifierService } from './identifier/identifier.service';
 
@@ -14,6 +13,6 @@ import { IdentifierService } from './identifier/identifier.service';
         envFilePath: '.env',
     })],
     controllers: [AppController, EditorController],
-    providers: [AiService, EditorService, OpenaiService, StorageService, IdentifierService],
+    providers: [AiService, EditorService, StorageService, IdentifierService],
 })
 export class AppModule {}
