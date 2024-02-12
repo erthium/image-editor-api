@@ -13,7 +13,7 @@ export class StorageService {
 
     async getImage(id: string, raw: boolean = false): Promise<string> {
         const nameData = raw ? '-raw' : '-edited';
-        const filePath = path.join(STORAGE_DIR, `${id}-${nameData}.png`);
+        const filePath = path.join(STORAGE_DIR, `${id}${nameData}.png`);
         const image = fs.readFileSync(filePath, 'base64');
         return image;
     }

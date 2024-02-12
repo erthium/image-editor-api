@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UploadedFile } from '@nestjs/common';
 import { EditorService } from './editor.service';
 import { ImageEditDto } from 'src/dto/image-edit.dto';
 import { UseInterceptors } from '@nestjs/common';
@@ -49,14 +49,15 @@ export class EditorController {
         }
     }
     
-    @Get('get')
-    async getEditedImage(@Body() data: ImageGetDto) {
+    @Get('get/:id')
+    async getEditedImage(@Param() params: any) {
+      const imageId = params.id;
       try {
-        return await this.editorService.getEditedImage(data.id);
+        return await this.editorService.getEditedImage(imageId);
       }
       catch(error) {
-        console.error(`Error getting image with id: ${data.id}`, error)
-        return {  error: `Error getting image with id: ${data.id}` }
+        console.error(`Error getting image with id: ${imageId}`, error)
+        return {  error: `Error getting image with id: ${imageId}` }
       }
     }
 }
