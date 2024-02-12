@@ -3,6 +3,7 @@ import { EditorService } from './editor.service';
 import { ImageEditDto } from 'src/dto/image-edit.dto';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageGetDto } from 'src/dto/image-get.dto';
 
 @Controller('editor')
 export class EditorController {
@@ -47,7 +48,15 @@ export class EditorController {
             return { error: 'Error editing image' };
         }
     }
-
-
     
+    @Get('get')
+    async getEditedImage(@Body() data: ImageGetDto) {
+      try {
+        return await this.editorService.getEditedImage(data.id);
+      }
+      catch(error) {
+        console.error(`Error getting image with id: ${data.id}`, error)
+        return {  error: `Error getting image with id: ${data.id}` }
+      }
+    }
 }

@@ -31,4 +31,8 @@ export class EditorService {
             throw new Error('Error editing image');
         }
     }
+
+    async getEditedImage(id: string): Promise<string> {
+        return this.storageService.getImage(id, true);
+    }
 }
