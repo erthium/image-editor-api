@@ -40,3 +40,4 @@ lerna-debug.log*
 
 # Local Files
 local_assets
+storage/
