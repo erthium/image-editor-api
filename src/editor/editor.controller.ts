@@ -41,8 +41,8 @@ export class EditorController {
         try {
             const imageFile: File = new File([image.buffer], image.originalname, { type: image.mimetype });
             const prompt: string = data.prompt;
-            const editedImageUrl = await this.editorService.editImage(imageFile, prompt);
-            return editedImageUrl;
+            const apiResponse = await this.editorService.editImage(imageFile, prompt);
+            return apiResponse;
         } 
         catch (error) {
             console.error('Image editing error:', error);
