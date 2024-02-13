@@ -40,7 +40,8 @@ export class EditorController {
     async editImage(@UploadedFile() image , @Body() data: ImageEditDto) {
         try {
             const imageFile: File = new File([image.buffer], image.originalname, { type: image.mimetype });
-            const editedImageUrl = await this.editorService.editImage(imageFile);
+            const prompt: string = data.prompt;
+            const editedImageUrl = await this.editorService.editImage(imageFile, prompt);
             return editedImageUrl;
         } 
         catch (error) {

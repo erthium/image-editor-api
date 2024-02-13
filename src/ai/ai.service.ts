@@ -13,7 +13,7 @@ const getAPIKey = () => {
 }
 
 
-const testPrompt: string = 'Style the image as if the people in the image are in a pixar animation movie';
+// const testPrompt: string = 'Style the image as if the people in the image are in a pixar animation movie';
 
 
 @Injectable()
@@ -23,7 +23,7 @@ export class AiService {
         getAPIKey();
     }
 
-    async postImage(image64: string) {
+    async postImage(image64: string, prompt: string) {
         // get the image is ./local_assets/test_utku.png
         /*
         const test_path = '/home/erthium/Projects/image-editor-api/local_assets/utku_converted.png';
@@ -39,7 +39,7 @@ export class AiService {
             },            
             body: JSON.stringify({
                 model: 'lcm-realistic-vision-v5-1',
-                prompt: testPrompt,
+                prompt: prompt,
                 //negative_prompt: 'Disfigured, cartoon, blurry',
                 //prompt_2: 'a photo of an astronaut riding a horse on mars',
                 //negative_prompt_2: 'Disfigured, cartoon, blurry',
