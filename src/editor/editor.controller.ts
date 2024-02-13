@@ -40,14 +40,13 @@ export class EditorController {
     
     @Get('get/:id')
     async getEditedImage(@Param() params: ImageGetDto) {
-        console.log('params:', params);
-      const imageId = params.id;
-      try {
-        return await this.editorService.getEditedImage(imageId);
-      }
-      catch(error) {
-        console.error(`Error getting image with id: ${imageId}`, error)
-        return {  error: `Error getting image with id: ${imageId}` }
-      }
+        const imageId = params.id;
+        try {
+            return await this.editorService.getEditedImage(imageId);
+        }
+        catch(error) {
+            console.error(`Error getting image with id: ${imageId}`, error)
+            return {  error: `Error getting image with id: ${imageId}` }
+        }
     }
 }
