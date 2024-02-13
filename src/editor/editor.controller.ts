@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Post, UploadedFile } from '@nestjs/common';
 import { EditorService } from './editor.service';
-import { ImageEditDto } from 'src/dto/image-edit.dto';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+
+// Data Transfer Object Blueprints
+import { ImageEditDto } from 'src/dto/image-edit.dto';
 import { ImageGetDto } from 'src/dto/image-get.dto';
 
 @Controller('editor')
@@ -20,20 +22,6 @@ export class EditorController {
             return { error: 'Connection error' };
         }
     }
-    /*
-    @Post('edit')
-    async editImage(@Body() data: any) {
-        try {
-            const editedImageUrl = await this.editorService.editImage(data.image);
-            return editedImageUrl;
-        }
-        catch (error) {
-            console.error('Image editing error:', error);
-            return { error: 'Error editing image' };
-        }
-    }
-    */
-    
     
     @Post('edit')
     @UseInterceptors(FileInterceptor('image'))
@@ -51,7 +39,8 @@ export class EditorController {
     }
     
     @Get('get/:id')
-    async getEditedImage(@Param() params: any) {
+    async getEditedImage(@Param() params: ImageGetDto) {
+        console.log('params:', params);
       const imageId = params.id;
       try {
         return await this.editorService.getEditedImage(imageId);
