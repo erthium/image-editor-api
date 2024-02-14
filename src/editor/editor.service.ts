@@ -51,8 +51,4 @@ export class EditorService {
         apiResponse.image_id = imageID;
         return apiResponse;
     }
-
-    async getEditedImage(id: string): Promise<string> {
-        return this.storageService.getImage(id, false);
-    }
 }

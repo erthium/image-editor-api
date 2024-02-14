@@ -5,7 +5,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 // Data Transfer Object Blueprints
 import { ImageEditDto } from 'src/dto/image-edit.dto';
-import { ImageGetDto } from 'src/dto/image-get.dto';
 
 @Controller('editor')
 export class EditorController {
@@ -39,18 +38,6 @@ export class EditorController {
         catch (error) {
             console.error('Image editing error:', error);
             return { error: 'Error editing image' };
-        }
-    }
-    
-    @Get('get/:id')
-    async getEditedImage(@Param() params: ImageGetDto) {
-        const imageId = params.id;
-        try {
-            return await this.editorService.getEditedImage(imageId);
-        }
-        catch(error) {
-            console.error(`Error getting image with id: ${imageId}`, error)
-            return {  error: `Error getting image with id: ${imageId}` }
         }
     }
 }
