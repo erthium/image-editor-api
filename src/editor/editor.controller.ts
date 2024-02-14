@@ -25,11 +25,11 @@ export class EditorController {
     
     @Post('edit')
     @UseInterceptors(FileInterceptor('image'))
-    async editImage(@UploadedFile() image , @Body() data: ImageEditDto) {
+    async editImage(@UploadedFile() image: Express.Multer.File , @Body() data: ImageEditDto) {
         try {
-            const imageFile: File = new File([image.buffer], image.originalname, { type: image.mimetype });
+            //const imageFile: File = new File([image.buffer], image.originalname, { type: image.mimetype });
             const prompt: string = data.prompt;
-            const apiResponse = await this.editorService.editImage(imageFile, prompt);
+            const apiResponse = await this.editorService.editImage(image, prompt);
             return apiResponse;
         } 
         catch (error) {
