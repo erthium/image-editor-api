@@ -16,7 +16,7 @@ export class EditorService {
         return this.aiService.testKey();
     }
 
-    async editImage(imageFile: Express.Multer.File, prompt: string): Promise<string> {
+    async editImage(imageFile: Express.Multer.File, promptData: any): Promise<string> {
         /*
         // convert file to base64 image
         const image64 = await imageFile.arrayBuffer()
@@ -35,8 +35,8 @@ export class EditorService {
         const image64 = resizedImageBuffer.toString('base64');
         // resizedImageBuffer to 'File'
         const resizedImageFile = new File([resizedImageBuffer], imageFile.originalname, { type: imageFile.mimetype });
-
-        const apiResponse = await this.aiService.postImage(resizedImageFile, prompt);
+        console.log(promptData);
+        const apiResponse = await this.aiService.postImage(resizedImageFile, promptData);
         console.log('----------------------------------------------');
         console.log('API Response:', apiResponse);
         // create an id for the image

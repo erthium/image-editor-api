@@ -29,17 +29,20 @@ export class AiService {
     }
 
 
-    async postImage(image64: File, prompt: string) {
+    async postImage(image64: File, promptData: any) {
         const url = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image";
         const formData = new FormData();
         formData.append('init_image', image64);
         formData.append('init_image_mode', "IMAGE_STRENGTH");
-        formData.append('image_strength', '0.35');
-        formData.append('steps', '40');
-        formData.append('seed', '0');
-        formData.append('cfg_scale', '5');
+        formData.append('image_strength', promptData.strength);
+        formData.append('steps', '50');
+        //formData.append('seed', '0');
+        formData.append('cfg_scale', '24');
         formData.append('samples', '1');
-        formData.append('text_prompts[0][text]', prompt)
+        if (promptData.style_preset.length > 0) {
+            formData.append('style_preset', promptData.style_preset);
+        }
+        formData.append('text_prompts[0][text]', promptData.prompt)
         formData.append('text_prompts[0][weight]', '1');
         formData.append('text_prompts[1][text]', 'blurry, bad')
         formData.append('text_prompts[1][weight]', '-1');

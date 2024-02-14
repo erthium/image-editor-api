@@ -28,8 +28,12 @@ export class EditorController {
     async editImage(@UploadedFile() image: Express.Multer.File , @Body() data: ImageEditDto) {
         try {
             //const imageFile: File = new File([image.buffer], image.originalname, { type: image.mimetype });
-            const prompt: string = data.prompt;
-            const apiResponse = await this.editorService.editImage(image, prompt);
+            const promptData = {
+                prompt: data.prompt,
+                strength: data.strength,
+                style_preset: data.style_preset
+            };
+            const apiResponse = await this.editorService.editImage(image, promptData);
             return apiResponse;
         } 
         catch (error) {
