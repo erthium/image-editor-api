@@ -53,6 +53,6 @@ export class EditorService {
     }
 
     async getEditedImage(id: string): Promise<string> {
-        return this.storageService.getImage(id, true);
+        return this.storageService.getImage(id, false);
     }
 }
