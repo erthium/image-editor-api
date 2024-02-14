@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
+
 const getAPIKey = () => {
-    const api_key = process.env.GET_IMG_API_KEY;
+    const api_key = process.env.STABILITY_API_KEY;
     if (api_key === undefined) {
-        throw new Error("getimg.ai API Key is missing!");
+        throw new Error("Stability API Key is missing!");
     }
-    const pattern = new RegExp("key-[a-zA-Z0-9]{96}");
+    const pattern = new RegExp("sk-[a-zA-Z0-9]{48}");
     if (!pattern.test(api_key)) {
-        throw new Error("getimg.ai API Key is not valid!");
+        throw new Error("Stability API Key is not valid!");
     }
     return api_key;
 }
@@ -15,6 +16,10 @@ const getAPIKey = () => {
 
 // const testPrompt: string = 'Style the image as if the people in the image are in a pixar animation movie';
 
+/*
+"invalid mime type for init_image: text/plain; 
+charset=utf-8 is not image/jpeg, image/png, image/gif, or image/webp"
+*/
 
 @Injectable()
 export class AiService {
@@ -23,12 +28,36 @@ export class AiService {
         getAPIKey();
     }
 
+
+    async postImage(image64: File, prompt: string) {
+        const url = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image";
+        const formData = new FormData();
+        formData.append('init_image', image64);
+        formData.append('init_image_mode', "IMAGE_STRENGTH");
+        formData.append('image_strength', '0.35');
+        formData.append('steps', '40');
+        formData.append('seed', '0');
+        formData.append('cfg_scale', '5');
+        formData.append('samples', '1');
+        formData.append('text_prompts[0][text]', prompt)
+        formData.append('text_prompts[0][weight]', '1');
+        formData.append('text_prompts[1][text]', 'blurry, bad')
+        formData.append('text_prompts[1][weight]', '-1');
+        const options = {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                authorization: `Bearer ${getAPIKey()}`,
+            },
+            body: formData,
+        };
+        const response = await fetch(url, options);
+        return response.json();
+    }
+
+
+    /*
     async postImage(image64: string, prompt: string) {
-        // get the image is ./local_assets/test_utku.png
-        /*
-        const test_path = '/home/erthium/Projects/image-editor-api/local_assets/utku_converted.png';
-        const test_image = fs.readFileSync(test_path, 'base64');
-        */
         const url = 'https://api.getimg.ai/v1/latent-consistency/image-to-image';
         const options = {
             method: 'POST',
@@ -55,5 +84,5 @@ export class AiService {
         const response = await fetch(url, options);
         return response.json();
     }
-
+    */
 }
