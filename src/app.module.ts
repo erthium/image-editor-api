@@ -17,12 +17,16 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     storageBucket: "gs://ai-summit-image-edit.appspot.com"
 });
+import { StorageController } from './storage/storage.controller';
 
 @Module({
     imports: [ConfigModule.forRoot({
         envFilePath: '.env',
     })],
-    controllers: [AppController, EditorController],
+    controllers: [
+        AppController,
+        EditorController,
+        StorageController],
     providers: [
         AiService, 
         EditorService, 
