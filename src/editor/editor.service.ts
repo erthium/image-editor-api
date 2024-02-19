@@ -44,11 +44,15 @@ export class EditorService {
 
         // store the raw and edited images
         const editedImage64 = apiResponse.artifacts[0].base64;
-        this.storageService.saveImage(image64, imageID + '-raw');
-        this.storageService.saveImage(editedImage64, imageID + '-edited');
+        this.storageService.saveImage(image64, imageID, 'raw');
+        this.storageService.saveImage(editedImage64, imageID, 'edited');
         
         // also send the image id to the client
         apiResponse.image_id = imageID;
         return apiResponse;
+    }
+
+    async getEditedImage(id: string): Promise<string> {
+        return this.storageService.getImage(id, 'edited');
     }
 }

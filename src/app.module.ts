@@ -7,13 +7,32 @@ import { EditorController } from './editor/editor.controller';
 import { EditorService } from './editor/editor.service';
 import { StorageService } from './storage/storage.service';
 import { IdentifierService } from './identifier/identifier.service';
+import { FirebaseService } from './firebase/firebase.service';
+
+import * as admin from 'firebase-admin';
+
+const serviceAccount = require('../serviceAccountKey.json');
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "gs://ai-summit-image-edit.appspot.com"
+});
 import { StorageController } from './storage/storage.controller';
 
 @Module({
     imports: [ConfigModule.forRoot({
         envFilePath: '.env',
     })],
-    controllers: [AppController, EditorController, StorageController],
-    providers: [AiService, EditorService, StorageService, IdentifierService],
+    controllers: [
+        AppController,
+        EditorController,
+        StorageController],
+    providers: [
+        AiService, 
+        EditorService, 
+        StorageService, 
+        IdentifierService, 
+        FirebaseService
+    ],
 })
 export class AppModule {}

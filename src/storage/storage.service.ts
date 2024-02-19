@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
-
-const STORAGE_DIR = path.join(__dirname, '../../storage');
+import { FirebaseService } from 'src/firebase/firebase.service';
 
 @Injectable()
 export class StorageService {
-    async saveImage(image: string, id: string): Promise<void> {
-        const filePath = path.join(STORAGE_DIR, `${id}.png`);
-        fs.writeFileSync(filePath, image, 'base64');
+    constructor(private readonly firebaseService: FirebaseService) {}
+
+    async saveImage(image: string, id: string, type: 'raw' | 'edited'): Promise<void> {
+        await this.firebaseService.saveImage64(image, id, type);
     }
 
-    async getImage(id: string, type: "edited" | "raw"): Promise<string> {
-        const filePath = path.join(STORAGE_DIR, `${id}-${type}.png`);
-        const image = fs.readFileSync(filePath, 'base64');
-        return image;
+    async getImage(id: string, type: 'raw' | 'edited'): Promise<string> {
+        return this.firebaseService.getImage64(id, type);
     }
 }
