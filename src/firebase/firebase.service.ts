@@ -15,10 +15,10 @@ export class FirebaseService {
         return `${id}-${type}.png`;
     }
 
-    async saveImage64(image64: string, id: string, type: 'raw' | 'edited'): Promise<any> {
-        console.log(id + '  ---  ' + type)
+    async saveImage64(image64: string, id: string, type: 'raw' | 'edited'): Promise<void> {
         const filename = this.getFilename(id, type);
-        this.bucket.file(filename).save(image64, {
+        const image = Buffer.from(image64, 'base64');        
+        this.bucket.file(filename).save(image, {
             metadata: {
                 contentType: 'image/png'
             }
