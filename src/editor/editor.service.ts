@@ -28,9 +28,8 @@ export class EditorService {
 
         // Resize the image while preserving aspect ratio
         const resizedImageBuffer = await sharp(buffer).resize(1024, 1024, {
-            fit: 'contain',
+            fit: 'cover'
             // withoutEnlargement: true,
-            background: { r: 255, g: 255, b: 255, alpha: 1 }
           }).toBuffer();
         const image64 = resizedImageBuffer.toString('base64');
         // resizedImageBuffer to 'File'
