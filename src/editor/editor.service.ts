@@ -34,10 +34,7 @@ export class EditorService {
         const image64 = resizedImageBuffer.toString('base64');
         // resizedImageBuffer to 'File'
         const resizedImageFile = new File([resizedImageBuffer], imageFile.originalname, { type: imageFile.mimetype });
-        console.log(promptData);
         const apiResponse = await this.aiService.postImage(resizedImageFile, promptData);
-        console.log('----------------------------------------------');
-        console.log('API Response:', apiResponse);
         // create an id for the image
         const imageID = await this.identifierService.createID(image64);
 
