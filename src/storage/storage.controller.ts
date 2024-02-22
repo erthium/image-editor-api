@@ -6,12 +6,13 @@ import { ImageGetDto } from 'src/dto/image-get.dto';
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
-  @Get('get/:id/:type')
-  async getEditedImage(@Param() params: ImageGetDto) {
+  @Get('get/:id/:type/:framed')
+  async getImage(@Param() params: ImageGetDto) {
     const imageId = params.id;
     const imageType = params.type;
+    const isFramed = params.framed;
     try {
-      return await this.storageService.getImage(imageId, imageType);
+      return await this.storageService.getImage(imageId, imageType, isFramed);
     }
     catch(error) {
         console.error(`Error getting image with id: ${imageId}`, error)
