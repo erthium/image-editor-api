@@ -37,7 +37,9 @@ lerna-debug.log*
 # Environment Variables
 .env
 .env.local
+serviceAccountKey.json
 
 # Local Files
 local_assets
 /storage
+.vercel

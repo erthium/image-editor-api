@@ -8,16 +8,9 @@ import { EditorService } from './editor/editor.service';
 import { StorageService } from './storage/storage.service';
 import { IdentifierService } from './identifier/identifier.service';
 import { FirebaseService } from './firebase/firebase.service';
-
-import * as admin from 'firebase-admin';
-
-const serviceAccount = require('../serviceAccountKey.json');
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: "gs://ai-summit-image-edit.appspot.com"
-});
 import { StorageController } from './storage/storage.controller';
+
+
 
 @Module({
     imports: [ConfigModule.forRoot({
@@ -36,3 +29,11 @@ import { StorageController } from './storage/storage.controller';
     ],
 })
 export class AppModule {}
+
+import * as admin from 'firebase-admin';
+
+const serviceAccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY as string);
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: process.env.STORAGE_BUCKET,
+});
