@@ -15,6 +15,7 @@ const ai_service_1 = require("../ai/ai.service");
 const storage_service_1 = require("../storage/storage.service");
 const identifier_service_1 = require("../identifier/identifier.service");
 const sharp = require("sharp");
+const buffer_1 = require("buffer");
 let EditorService = class EditorService {
     constructor(storageService, identifierService, aiService) {
         this.storageService = storageService;
@@ -30,8 +31,9 @@ let EditorService = class EditorService {
             fit: 'cover'
         }).toBuffer();
         const image64 = resizedImageBuffer.toString('base64');
-        const resizedImageFile = new File([resizedImageBuffer], imageFile.originalname, { type: imageFile.mimetype });
+        const resizedImageFile = new buffer_1.File([resizedImageBuffer], imageFile.originalname, { type: imageFile.mimetype });
         const apiResponse = await this.aiService.postImage(resizedImageFile, promptData);
+        console.log(apiResponse);
         const imageID = await this.identifierService.createID(image64);
         const editedImage64 = apiResponse.artifacts[0].base64;
         this.storageService.saveImage(image64, imageID, 'raw');

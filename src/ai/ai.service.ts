@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
+import { File } from 'buffer';
 
 const getAPIKey = () => {
     const api_key = process.env.STABILITY_API_KEY;

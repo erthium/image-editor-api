@@ -3,6 +3,7 @@ import { AiService } from 'src/ai/ai.service';
 import { StorageService } from 'src/storage/storage.service';
 import { IdentifierService } from 'src/identifier/identifier.service';
 import * as sharp from 'sharp';
+import { File } from 'buffer';
 
 @Injectable()
 export class EditorService {
@@ -36,6 +37,7 @@ export class EditorService {
         const resizedImageFile = new File([resizedImageBuffer], imageFile.originalname, { type: imageFile.mimetype });
         const apiResponse = await this.aiService.postImage(resizedImageFile, promptData);
         // create an id for the image
+        console.log(apiResponse);
         const imageID = await this.identifierService.createID(image64);
 
         // store the raw and edited images
