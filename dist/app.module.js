@@ -22,9 +22,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot({
-                envFilePath: '.env',
-            })],
+        imports: [config_1.ConfigModule.forRoot()],
         controllers: [
             app_controller_1.AppController,
             editor_controller_1.EditorController,

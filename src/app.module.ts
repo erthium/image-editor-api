@@ -13,9 +13,7 @@ import { StorageController } from './storage/storage.controller';
 
 
 @Module({
-    imports: [ConfigModule.forRoot({
-        envFilePath: '.env',
-    })],
+    imports: [ConfigModule.forRoot()],
     controllers: [
         AppController,
         EditorController,
