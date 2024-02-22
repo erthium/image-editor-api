@@ -20,11 +20,12 @@ let StorageController = class StorageController {
     constructor(storageService) {
         this.storageService = storageService;
     }
-    async getEditedImage(params) {
+    async getImage(params) {
         const imageId = params.id;
         const imageType = params.type;
+        const isFramed = params.framed;
         try {
-            return await this.storageService.getImage(imageId, imageType);
+            return await this.storageService.getImage(imageId, imageType, isFramed);
         }
         catch (error) {
             console.error(`Error getting image with id: ${imageId}`, error);
@@ -34,12 +35,12 @@ let StorageController = class StorageController {
 };
 exports.StorageController = StorageController;
 __decorate([
-    (0, common_1.Get)('get/:id/:type'),
+    (0, common_1.Get)('get/:id/:type/:framed'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [image_get_dto_1.ImageGetDto]),
     __metadata("design:returntype", Promise)
-], StorageController.prototype, "getEditedImage", null);
+], StorageController.prototype, "getImage", null);
 exports.StorageController = StorageController = __decorate([
     (0, common_1.Controller)('storage'),
     __metadata("design:paramtypes", [storage_service_1.StorageService])

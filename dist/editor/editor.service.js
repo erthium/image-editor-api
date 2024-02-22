@@ -39,9 +39,6 @@ let EditorService = class EditorService {
         apiResponse.image_id = imageID;
         return apiResponse;
     }
-    async getEditedImage(id) {
-        return this.storageService.getImage(id, 'edited');
-    }
 };
 exports.EditorService = EditorService;
 exports.EditorService = EditorService = __decorate([

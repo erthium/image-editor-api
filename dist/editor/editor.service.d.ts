@@ -9,5 +9,4 @@ export declare class EditorService {
     constructor(storageService: StorageService, identifierService: IdentifierService, aiService: AiService);
     testConnection(): Promise<void>;
     editImage(imageFile: Express.Multer.File, promptData: any): Promise<string>;
-    getEditedImage(id: string): Promise<string>;
 }

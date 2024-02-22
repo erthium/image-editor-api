@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StorageService = void 0;
 const common_1 = require("@nestjs/common");
+const path_1 = require("path");
+const sharp = require("sharp");
 const firebase_service_1 = require("../firebase/firebase.service");
 let StorageService = class StorageService {
     constructor(firebaseService) {
@@ -19,8 +21,23 @@ let StorageService = class StorageService {
     async saveImage(image, id, type) {
         await this.firebaseService.saveImage64(image, id, type);
     }
-    async getImage(id, type) {
-        return this.firebaseService.getImage64(id, type);
+    async getImage(id, type, framed) {
+        const image64 = await this.firebaseService.getImage64(id, type);
+        if (framed) {
+            const image_buf = Buffer.from(image64, 'base64');
+            const frame_path = (0, path_1.join)(__dirname, '../assets/frame.png');
+            const frame_logo_path = (0, path_1.join)(__dirname, '../assets/frame_logo.png');
+            const frame = sharp(frame_path);
+            const frame_logo = await sharp(frame_logo_path).toBuffer();
+            const result_buf = await frame.composite([
+                { input: image_buf, top: 30, left: 28 },
+                { input: frame_logo }
+            ]).toBuffer();
+            return result_buf.toString('base64');
+        }
+        else {
+            return image64;
+        }
     }
 };
 exports.StorageService = StorageService;
