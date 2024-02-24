@@ -18,12 +18,6 @@ export class EditorService {
     }
 
     async editImage(imageFile: Express.Multer.File, promptData: any): Promise<string> {
-        /*
-        // convert file to base64 image
-        const image64 = await imageFile.arrayBuffer()
-        .then(buffer => Buffer.from(buffer).toString('base64'));
-        */
-        
         // resize file to be 1024x1024
         const buffer = imageFile.buffer;
 
