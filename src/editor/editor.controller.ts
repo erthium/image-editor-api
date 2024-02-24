@@ -26,7 +26,6 @@ export class EditorController {
     @UseInterceptors(FileInterceptor('image'))
     async editImage(@UploadedFile() image: Express.Multer.File , @Body() data: ImageEditDto) {
         try {
-            //const imageFile: File = new File([image.buffer], image.originalname, { type: image.mimetype });
             const promptData = {
                 prompt: data.prompt,
                 strength: data.strength,
