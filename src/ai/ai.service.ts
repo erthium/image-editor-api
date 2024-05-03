@@ -14,13 +14,6 @@ const getAPIKey = () => {
 }
 
 
-// const testPrompt: string = 'Style the image as if the people in the image are in a pixar animation movie';
-
-/*
-"invalid mime type for init_image: text/plain; 
-charset=utf-8 is not image/jpeg, image/png, image/gif, or image/webp"
-*/
-
 @Injectable()
 export class AiService {
 
@@ -57,35 +50,4 @@ export class AiService {
         const response = await fetch(url, options);
         return response.json();
     }
-
-
-    /*
-    async postImage(image64: string, prompt: string) {
-        const url = 'https://api.getimg.ai/v1/latent-consistency/image-to-image';
-        const options = {
-            method: 'POST',
-            headers: {
-                accept: 'application/json',
-                'content-type': 'application/json',
-                authorization: `Bearer ${getAPIKey()}`,
-            },            
-            body: JSON.stringify({
-                model: 'lcm-realistic-vision-v5-1',
-                prompt: prompt,
-                //negative_prompt: 'Disfigured, cartoon, blurry',
-                //prompt_2: 'a photo of an astronaut riding a horse on mars',
-                //negative_prompt_2: 'Disfigured, cartoon, blurry',
-                image: image64,
-                strength: 0.15,
-                steps: 6,
-                //guidance: 15,
-                //seed: 2024,
-                //scheduler: 'dpmsolver++',
-                output_format: 'png'
-            })
-        };
-        const response = await fetch(url, options);
-        return response.json();
-    }
-    */
 }

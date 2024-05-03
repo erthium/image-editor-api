@@ -10,8 +10,6 @@ import { IdentifierService } from './identifier/identifier.service';
 import { FirebaseService } from './firebase/firebase.service';
 import { StorageController } from './storage/storage.controller';
 
-
-
 @Module({
     imports: [ConfigModule.forRoot()],
     controllers: [
