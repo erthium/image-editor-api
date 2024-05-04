@@ -15,8 +15,8 @@ const editor_controller_1 = require("./editor/editor.controller");
 const editor_service_1 = require("./editor/editor.service");
 const storage_service_1 = require("./storage/storage.service");
 const identifier_service_1 = require("./identifier/identifier.service");
+const firebase_service_1 = require("./firebase/firebase.service");
 const storage_controller_1 = require("./storage/storage.controller");
-const file_service_1 = require("./file/file.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,7 +33,7 @@ exports.AppModule = AppModule = __decorate([
             editor_service_1.EditorService,
             storage_service_1.StorageService,
             identifier_service_1.IdentifierService,
-            file_service_1.FileService
+            firebase_service_1.FirebaseService
         ],
     })
 ], AppModule);

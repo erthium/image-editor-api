@@ -1,8 +1,7 @@
-import { FileService } from 'src/file/file.service';
+import { FirebaseService } from 'src/firebase/firebase.service';
 export declare class StorageService {
-    private readonly fileService;
-    constructor(fileService: FileService);
-    test(): string;
+    private readonly firebaseService;
+    constructor(firebaseService: FirebaseService);
     saveImage(image: string, id: string, type: 'raw' | 'edited'): Promise<void>;
     getImage(id: string, type: 'raw' | 'edited', framed: boolean): Promise<string>;
 }

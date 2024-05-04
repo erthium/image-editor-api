@@ -20,9 +20,6 @@ let StorageController = class StorageController {
     constructor(storageService) {
         this.storageService = storageService;
     }
-    async test() {
-        return this.storageService.test();
-    }
     async getImage(params) {
         const imageId = params.id;
         const imageType = params.type;
@@ -37,12 +34,6 @@ let StorageController = class StorageController {
     }
 };
 exports.StorageController = StorageController;
-__decorate([
-    (0, common_1.Get)('test'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], StorageController.prototype, "test", null);
 __decorate([
     (0, common_1.Get)('get/:id/:type/:framed'),
     __param(0, (0, common_1.Param)()),

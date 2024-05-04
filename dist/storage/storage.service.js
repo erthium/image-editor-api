@@ -13,19 +13,16 @@ exports.StorageService = void 0;
 const common_1 = require("@nestjs/common");
 const path_1 = require("path");
 const sharp = require("sharp");
-const file_service_1 = require("../file/file.service");
+const firebase_service_1 = require("../firebase/firebase.service");
 let StorageService = class StorageService {
-    constructor(fileService) {
-        this.fileService = fileService;
-    }
-    test() {
-        return this.fileService.getFilePath('test.png');
+    constructor(firebaseService) {
+        this.firebaseService = firebaseService;
     }
     async saveImage(image, id, type) {
-        await this.fileService.saveImage64(image, id, type);
+        await this.firebaseService.saveImage64(image, id, type);
     }
     async getImage(id, type, framed) {
-        const image64 = await this.fileService.getImage64(id, type);
+        const image64 = await this.firebaseService.getImage64(id, type);
         if (framed) {
             const image_buf = Buffer.from(image64, 'base64');
             const frame_path = (0, path_1.join)(__dirname, '../assets/frame.png');
@@ -46,6 +43,6 @@ let StorageService = class StorageService {
 exports.StorageService = StorageService;
 exports.StorageService = StorageService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [file_service_1.FileService])
+    __metadata("design:paramtypes", [firebase_service_1.FirebaseService])
 ], StorageService);
 //# sourceMappingURL=storage.service.js.map
