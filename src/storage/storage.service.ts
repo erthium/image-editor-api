@@ -17,7 +17,7 @@ export class StorageService {
         // Load images
         const image_buf = Buffer.from(image64, 'base64');
         // resize file to be 1024x1024
-        const resizedImageBuffer = await sharp(image_buf).resize(1030, 1030, {
+        const resizedImageBuffer = await sharp(image_buf).resize(1040, 1040, {
           fit: 'cover'
         }).toBuffer();
         const frame_path = join(__dirname, '../assets/sw-frame.png');
@@ -27,7 +27,7 @@ export class StorageService {
 
         // Compose
         const result_buf = await frame.composite([
-          { input: resizedImageBuffer, top: 20, left: 19, },
+          { input: resizedImageBuffer, top: 20, left: 18, },
           { input: frame_logo }
         ]).toBuffer();
 
