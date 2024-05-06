@@ -16,7 +16,7 @@ export class StorageService {
       if (framed) {
         // Load images
         const image_buf = Buffer.from(image64, 'base64');
-        const frame_path = join(__dirname, '../assets/frame.png');
+        const frame_path = join(__dirname, '../assets/sw-frame.png');
         const frame_logo_path = join(__dirname, '../assets/frame_logo.png');
         const frame = sharp(frame_path);
         const frame_logo = await sharp(frame_logo_path).toBuffer();
