@@ -23,7 +23,7 @@ export class StorageService {
 
         // Compose
         const result_buf = await frame.composite([
-          { input: image_buf, top: 30, left: 28},
+          { input: image_buf, top: 25, left: 24},
           { input: frame_logo }
         ]).toBuffer();
 
