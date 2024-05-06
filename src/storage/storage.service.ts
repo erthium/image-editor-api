@@ -16,7 +16,6 @@ export class StorageService {
       if (framed) {
         // Load images
         const image_buf = Buffer.from(image64, 'base64');
-
         const frame_path = join(__dirname, '../assets/sw-frame.png');
         const frame_logo_path = join(__dirname, '../assets/frame_logo.png');
         const frame = sharp(frame_path);
@@ -24,7 +23,7 @@ export class StorageService {
 
         // Compose
         const result_buf = await frame.composite([
-          { input: image_buf, top: 27, left: 26},
+          { input: image_buf, top: 30, left: 28},
           { input: frame_logo }
         ]).toBuffer();
 
