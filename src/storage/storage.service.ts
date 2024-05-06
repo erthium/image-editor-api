@@ -17,7 +17,7 @@ export class StorageService {
         // Load images
         const image_buf = Buffer.from(image64, 'base64');
         // resize file to be 1024x1024
-        const resizedImageBuffer = await sharp(image_buf).resize(1040, 1040, {
+        const resizedImageBuffer = await sharp(image_buf).resize(1048, 1048, {
           fit: 'cover'
         }).toBuffer();
         const frame_path = join(__dirname, '../assets/sw-frame.png');
