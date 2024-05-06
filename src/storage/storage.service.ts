@@ -22,31 +22,18 @@ export class StorageService {
         }).toBuffer();
         const frame_path = join(__dirname, '../assets/sw-frame.png');
         const frame_logo_path = join(__dirname, '../assets/frame_logo.png');
-        const frame = await sharp(frame_path).toBuffer();
+        const frame = sharp(frame_path);
+        const frame_buffer = await frame.toBuffer();
         const frame_logo = await sharp(frame_logo_path).toBuffer();
 
         // Compose
         /// resized image needs to be on the bottom layer, frame and logo would be on the top
-        const result_buf = await sharp({
-          create: {
-            width: 1080,
-            height: 1440,
-            channels: 4,
-            background: { r: 0, g: 0, b: 0, alpha: 0 }
-          }
-        })
-          .composite([
-            {
-              input: resizedImageBuffer, top: 20, left: 18
-            },
-            {
-              input: frame,
-            },
-            {
-              input: frame_logo,
-            }
-          ])
-          .toBuffer();
+        /// result should be the same type as the image
+        const result_buf = await frame.composite([
+          { input: resizedImageBuffer, top: 20, left: 18},
+          { input: frame_buffer},
+          { input: frame_logo }
+        ]).toBuffer();
 
         // Return final image as base64
         return result_buf.toString('base64');
