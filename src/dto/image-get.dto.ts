@@ -1,5 +1,8 @@
+import { ImageType } from "src/storage/image-type";
+
 export class ImageGetDto {
-  id: string;
-  type: "edited" | "raw";
-  framed: boolean;
+  id: string
+  type: ImageType
+  edited: boolean | string
+  framed: boolean | string
 }
