@@ -13,17 +13,13 @@ export class TuringController {
     private readonly geminiService: GeminiService,
   ) {}
 
-  @Post('gpt')
+  @Post('gpt/message')
   async getGptResponse(@Body() data: any): Promise<any> {
     try {
-      console.log('GPT request data:', data);
       const messages: Message[] = data.messages;
       const agent: Agent = data.agent;
       const other_agents: Agent[] = data.other_agents;
-      console.log('GPT request messages:', messages);
-      console.log('GPT request agent:', agent);
-      console.log('GPT request other_agents:', other_agents);
-      const response = await this.openaiService.sendGPTRequest(messages, agent, other_agents);
+      const response = await this.openaiService.getGPTMessage(messages, agent, other_agents);
       return { text: response };
     } catch (error) {
       console.error('GPT response error:', error);
@@ -31,17 +27,41 @@ export class TuringController {
     }
   }
 
-  @Post('gemini')
-  async getGeminiResponse(@Body() data: any): Promise<any> {
+  @Post('gpt/guess')
+  async getGptGuess(@Body() data: any): Promise<any> {
     try {
-      console.log('Gemini request data:', data);
       const messages: Message[] = data.messages;
       const agent: Agent = data.agent;
       const other_agents: Agent[] = data.other_agents;
-      console.log('Gemini request messages:', messages);
-      console.log('Gemini request agent:', agent);
-      console.log('Gemini request other_agents:', other_agents);
-      const response = await this.geminiService.sendGeminiRequest(messages, agent, other_agents);
+      const response = await this.openaiService.getGPTGuess(messages, agent, other_agents);
+      return { text: response };
+    } catch (error) {
+      console.error('GPT response error:', error);
+      return { error: 'Error getting GPT response' };
+    }
+  }
+
+  @Post('gemini/message')
+  async getGeminiResponse(@Body() data: any): Promise<any> {
+    try {
+      const messages: Message[] = data.messages;
+      const agent: Agent = data.agent;
+      const other_agents: Agent[] = data.other_agents;
+      const response = await this.geminiService.getGeminiMessage(messages, agent, other_agents);
+      return { text: response };
+    } catch (error) {
+      console.error('Gemini response error:', error);
+      return { error: 'Error getting Gemini response' };
+    }
+  }
+
+  @Post('gemini/guess')
+  async getGeminiGuess(@Body() data: any): Promise<any> {
+    try {
+      const messages: Message[] = data.messages;
+      const agent: Agent = data.agent;
+      const other_agents: Agent[] = data.other_agents;
+      const response = await this.geminiService.getGeminiGuess(messages, agent, other_agents);
       return { text: response };
     } catch (error) {
       console.error('Gemini response error:', error);
