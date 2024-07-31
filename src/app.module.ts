@@ -9,19 +9,24 @@ import { StorageService } from './storage/storage.service';
 import { IdentifierService } from './identifier/identifier.service';
 import { FirebaseService } from './firebase/firebase.service';
 import { StorageController } from './storage/storage.controller';
+import { TuringController } from './turing/turing.controller';
+import { TuringService } from './turing/turing.service';
+import { OpenaiService } from './openai/openai.service';
+import { GeminiService } from './gemini/gemini.service';
 
 @Module({
     imports: [ConfigModule.forRoot()],
     controllers: [
         AppController,
         EditorController,
-        StorageController],
+        StorageController,
+        TuringController],
     providers: [
         AiService, 
         EditorService, 
         StorageService, 
         IdentifierService, 
-        FirebaseService
+        FirebaseService, TuringService, OpenaiService, GeminiService
     ],
 })
 export class AppModule {}
