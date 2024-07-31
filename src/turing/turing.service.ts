@@ -6,7 +6,7 @@ import { Message } from 'src/dto/message.dto';
 @Injectable()
 export class TuringService {
   async generateStarterMessage(agent: Agent, other_agents: Agent[]) {
-    return `You are in a game of Reverse Turing Test. You are ${agent.name}. You will be asked questions and you will answer them according to your character. You will be playing against an another AI model and a human; who are ${other_agents[0].name} and ${other_agents[1].name} but you do not know which one is human. You will be chatting with them. After 15 messages, you will guess who is the human. Now, start acting and talking like ${agent.name}.`;
+    return `You are in a game of Reverse Turing Test. You are ${agent.name}. You will be asked questions and you will answer them according to your character. You will be playing against an another AI model and a human; who are ${other_agents[0].name} and ${other_agents[1].name} but you do not know which one is human. You will be chatting with them. After some messages, you will guess who is the human. Notes; do not put your name or your characters name at the start of your message, just give me the message you would like to say. And do not give messageas longer than 3 sentences. Now, start acting and talking like ${agent.name}.`;
   }
 
   async mergeChatHistory(messages: Message[], agent: Agent, other_agents: Agent[]) {
@@ -18,5 +18,5 @@ export class TuringService {
     })
     chat += "Now, it's your turn to respond. \n";
     return chat;
-  } 
+  }
 }

@@ -32,7 +32,7 @@ export class OpenaiService {
     return response;
   }
 
-  async sendGPTRequest(chat_messages: Message[], agent: Agent, other_agents: Agent[]): Promise<string> {
+  async getGPTMessage(chat_messages: Message[], agent: Agent, other_agents: Agent[]): Promise<string> {
     const messages: Array<ChatCompletionMessageParam> = [
       {
         role: "system",
@@ -47,7 +47,30 @@ export class OpenaiService {
         content: message_content,
       });
     });
-    console.log('GPT messages:', messages);
+    const response = await this.chatCompletion(messages, "gpt-3.5-turbo");
+    console.log(response);
+    return response;
+  }
+
+  async getGPTGuess(chat_messages: Message[], agent: Agent, other_agents: Agent[]): Promise<string> {
+    const messages: Array<ChatCompletionMessageParam> = [
+      {
+        role: "system",
+        content: await this.turingService.generateStarterMessage(agent, other_agents),
+      }
+    ];
+    chat_messages.forEach((message) => {
+      const message_role = message.agent.origin === "ChatGPT" ? "assistant" : "user";
+      const message_content = `${message.agent.name}: ${message.content}`;
+      messages.push({
+        role: message_role,
+        content: message_content,
+      });
+    });
+    messages.push({
+      role: "system",
+      content: "Now, the conversation is over. Please guess who is the human is. Only give the name of the character you guess, nothing else.",
+    })
     const response = await this.chatCompletion(messages, "gpt-3.5-turbo");
     console.log(response);
     return response;
