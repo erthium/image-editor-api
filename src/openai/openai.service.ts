@@ -40,7 +40,7 @@ export class OpenaiService {
       }
     ];
     chat_messages.forEach((message) => {
-      const message_role = message.agent.origin === "ChatGPT" ? "assistant" : "user";
+      const message_role = message.agent.name === agent.name ? "assistant" : "user";
       const message_content = `${message.agent.name}: ${message.content}`;
       messages.push({
         role: message_role,
@@ -48,8 +48,9 @@ export class OpenaiService {
       });
     });
     const response = await this.chatCompletion(messages, "gpt-3.5-turbo");
-    console.log(response);
-    return response;
+    const stripped_message = await this.turingService.stripCharacterName(response, agent);
+    console.log(stripped_message);
+    return stripped_message;
   }
 
   async getGPTGuess(chat_messages: Message[], agent: Agent, other_agents: Agent[]): Promise<string> {

@@ -19,4 +19,13 @@ export class TuringService {
     chat += "Now, it's your turn to respond. \n";
     return chat;
   }
+
+  async stripCharacterName(message: string, agent: Agent) {
+    const name = agent.name;
+    const name_length = name.length;
+    if (message.slice(0, name_length).toLowerCase() === name.toLowerCase() && message[name_length] === ":") {
+      return message.slice(name_length + 2);
+    }
+    return message;
+  }
 }
