@@ -13,6 +13,7 @@ import { TuringController } from './turing/turing.controller';
 import { TuringService } from './turing/turing.service';
 import { OpenaiService } from './openai/openai.service';
 import { GeminiService } from './gemini/gemini.service';
+import { ClaudeService } from './claude/claude.service';
 
 @Module({
     imports: [ConfigModule.forRoot()],
@@ -26,7 +27,7 @@ import { GeminiService } from './gemini/gemini.service';
         EditorService, 
         StorageService, 
         IdentifierService, 
-        FirebaseService, TuringService, OpenaiService, GeminiService
+        FirebaseService, TuringService, OpenaiService, GeminiService, ClaudeService
     ],
 })
 export class AppModule {}
