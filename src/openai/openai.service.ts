@@ -47,7 +47,7 @@ export class OpenaiService {
         content: message_content,
       });
     });
-    const response = await this.chatCompletion(messages, "gpt-3.5-turbo");
+    const response = await this.chatCompletion(messages, "gpt-4o-mini");
     const stripped_message = await this.turingService.stripCharacterName(response, agent);
     console.log(stripped_message);
     return stripped_message;

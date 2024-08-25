@@ -2,6 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 
 import { GeminiService } from 'src/gemini/gemini.service';
 import { OpenaiService } from 'src/openai/openai.service';
+import { ClaudeService } from 'src/claude/claude.service';
 import { Message } from 'src/dto/message.dto';
 import { Agent } from 'src/dto/agent.dto';
 
@@ -11,6 +12,7 @@ export class TuringController {
   constructor(
     private readonly openaiService: OpenaiService,
     private readonly geminiService: GeminiService,
+    private readonly claudeService: ClaudeService
   ) {}
 
   @Post('gpt/message')
@@ -66,6 +68,34 @@ export class TuringController {
     } catch (error) {
       console.error('Gemini response error:', error);
       return { error: 'Error getting Gemini response' };
+    }
+  }
+
+  @Post('claude/message')
+  async getClaudeResponse(@Body() data: any): Promise<any> {
+    try {
+      const messages: Message[] = data.messages;
+      const agent: Agent = data.agent;
+      const other_agents: Agent[] = data.other_agents;
+      const response = await this.claudeService.getClaudeMessage(messages, agent, other_agents);
+      return { text: response };
+    } catch (error) {
+      console.error('Claude response error:', error);
+      return { error: 'Error getting Claude response' };
+    }
+  }
+
+  @Post('claude/guess')
+  async getClaudeGuess(@Body() data: any): Promise<any> {
+    try {
+      const messages: Message[] = data.messages;
+      const agent: Agent = data.agent;
+      const other_agents: Agent[] = data.other_agents;
+      const response = await this.claudeService.getClaudeGuess(messages, agent, other_agents);
+      return { text: response };
+    } catch (error) {
+      console.error('Claude response error:', error);
+      return { error: 'Error getting Claude response' };
     }
   }
 
